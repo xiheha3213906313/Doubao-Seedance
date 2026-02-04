@@ -1,0 +1,191 @@
+
+.api-config-box {
+  border: 2px dashed #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  text-align: center;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.api-config-box.drag-over {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.api-config-box label {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.api-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.api-input::placeholder {
+  color: #6b7280;
+}
+
+.api-input:focus {
+  border-color: #3b82f6;
+}
+
+.api-config-box .config-hint {
+  text-align: left;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.api-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.api-btn {
+  padding: 8px 24px;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.api-btn:hover {
+  background: #e5e7eb;
+}
+
+.drag-hint {
+  font-size: 13px;
+  color: #6b7280;
+  text-decoration: underline;
+  cursor: default;
+}
+
+.import-export-progress {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10001;
+  width: min(560px, calc(100vw - 48px));
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+  padding: 18px 18px;
+}
+
+.import-export-progress__row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.import-export-progress__text {
+  font-size: 13px;
+  color: #374151;
+  text-align: center;
+}
+
+.import-export-progress__bar {
+  height: 10px;
+  background: #f3f4f6;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.import-export-progress__barFill {
+  width: 36%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.35), rgba(59, 130, 246, 0.9), rgba(59, 130, 246, 0.35));
+  background-size: 200% 100%;
+  animation: importExportProgressIndeterminate 1.2s linear infinite;
+}
+
+@keyframes importExportProgressIndeterminate {
+  0% { transform: translateX(-180%); }
+  100% { transform: translateX(360%); }
+}
+
+.select {
+  position: relative;
+  display: inline-block;
+}
+
+.select-btn {
+  padding: 8px 14px;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.select-btn:hover {
+  background: #e5e7eb;
+}
+
+.select-menu {
+  position: fixed;
+  min-width: unset;
+  width: max-content;
+  max-width: calc(100vw - 24px);
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  padding: 4px;
+  z-index: 1000;
+}
+
+.select-item {
+  width: auto;
+  display: block;
+  text-align: left;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.select-item:hover {
+  background: #f3f4f6;
+}
+
+.global-busy-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10000;
+  cursor: not-allowed;
+}
+
+.global-busy-overlay * {
+  cursor: not-allowed;
+}

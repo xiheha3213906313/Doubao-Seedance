@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI视频生成器</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/api-config.css">
+</head>
+<body class="page-preload">
+  <div class="app">
+    <!-- 左侧导航栏 -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">AI模型调用</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <button class="nav-item active" data-tab="media" id="mediaToggle">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            豆包Seedance
+            <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+
+          <div class="submenu" id="mediaSubmenu">
+            <button class="submenu-item active" data-tab="media-video">
+              <div class="submenu-title">视频生成</div>
+              <div class="submenu-desc">图生视频 / 文生视频</div>
+            </button>
+            <button class="submenu-item" data-tab="media-image">
+              <div class="submenu-title">图像生成</div>
+              <div class="submenu-desc">创意智能</div>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main">
+
+
+      <!-- 模型选择栏 -->
+      <div class="model-bar">
+        <div class="model-left">
+          <div class="model-selector" id="modelSelector">
+            <svg t="1769528331257" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5510" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16"><path d="M154.68661162 328.42831573l-1.28709316 0.64354657v364.89095508l357.81194092 188.23739678V506.36896719L154.68661162 328.42831573z" fill="#FFFFFF" p-id="5511"></path><path d="M868.37985459 328.75008945L511.21145938 140.83446552 168.52286445 321.02752959l-13.83625283 7.40078613 356.52484775 177.94065147 4.18305323-1.93064063 353.95066143-175.04469052V329.0718623l-0.96531944-0.32177285zM515.3945126 504.43832656l-4.18305323 1.93064063 4.18305323-1.93064063z" fill="#91D5FF" p-id="5512"></path><path d="M939.8135331 294.32034336a59.84983916 59.84983916 0 0 0-25.42009307-26.70718623L538.56219219 68.75723955a58.88451885 58.88451885 0 0 0-54.70146563 0L108.35125244 266.32606396a58.24097227 58.24097227 0 0 0-15.44511973 13.83625284 64.35466612 64.35466612 0 0 0-9.65320049 12.54915966 59.84983916 59.84983916 0 0 0-6.43546581 25.7418668v386.12799405a59.20629258 59.20629258 0 0 0 32.17733261 52.1272793l375.50947413 197.56882352a59.20629258 59.20629258 0 0 0 26.70718622 7.72255987h4.50482696a56.31033252 56.31033252 0 0 0 22.84590586-6.11369297l375.509475-197.56882441a59.20629258 59.20629258 0 0 0 32.17733261-52.12727842V318.45334326a56.63210625 56.63210625 0 0 0-6.4354667-24.1329999z m-70.46835908 35.07329268l-353.95066142 175.04469052-4.18305323 2.25241348v375.50947412L153.07774472 693.96281739V329.0718623l13.83625284-7.40078613 344.29746182-180.83661064 357.16839521 187.91562392z" fill="#40A9FF" p-id="5513"></path></svg>
+            <span class="model-name">Doubao-Seedance-1.5-pro</span>
+            <span class="model-version">251215</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+            
+            <!-- Model Dropdown -->
+            <div class="model-dropdown">
+              <div class="model-option active" data-model="doubao-seedance-1-5-pro-251215">
+                <div class="model-option-name">Doubao-Seedance-1.5-pro</div>
+                <div class="model-option-desc">支持音视频生成，首尾帧/首帧/文生视频</div>
+              </div>
+              <div class="model-option" data-model="doubao-seedance-1-0-pro-250528">
+                <div class="model-option-name">Doubao-Seedance-1.0-pro</div>
+                <div class="model-option-desc">支持首尾帧/首帧/文生视频</div>
+              </div>
+              <div class="model-option" data-model="doubao-seedance-1-0-pro-fast-251015">
+                <div class="model-option-name">Doubao-Seedance-1.0-pro-fast</div>
+                <div class="model-option-desc">快速版，支持首帧/文生视频</div>
+              </div>
+              <div class="model-option" data-model="doubao-seedance-1-0-lite-t2v-250428">
+                <div class="model-option-name">Doubao-Seedance-1.0-lite-t2v</div>
+                <div class="model-option-desc">轻量版，仅支持文生视频</div>
+              </div>
+              <div class="model-option" data-model="doubao-seedance-1-0-lite-i2v-250428">
+                <div class="model-option-name">Doubao-Seedance-1.0-lite-i2v</div>
+                <div class="model-option-desc">轻量版，支持参考图/首尾帧/首帧</div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-config" id="configBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            配置
+          </button>
+        </div>
+        <div class="model-right">
+          <button class="task-filter-star-btn" id="taskStarFilterBtn" type="button" aria-pressed="false">
+            仅看收藏
+          </button>
+          <div class="model-right-separator" aria-hidden="true"></div>
+          <div class="task-filter-model-selector" id="taskModelFilterSelector">
+            <svg class="icon" viewBox="0 0 1024 1024" width="16" height="16">
+              <path d="M426.837333 515.029333c0-28.970667-15.061333-67.2-34.837333-88.490666L179.690667 198.229333C160.490667 177.066667 163.306667 170.666667 191.893333 170.666667h640.213334c28.522667 0 31.36 6.4 12.096 27.712l-211.498667 225.493333c-19.754667 21.056-34.816 59.221333-34.816 88.106667v298.794666a21.333333 21.333333 0 1 0 42.666667 0V512c0-18.048 10.944-45.76 23.253333-58.901333l211.776-225.792C919.872 178.325333 897.706667 128 832.106667 128H191.893333c-65.728 0-87.744 50.346667-43.648 99.072l212.501334 228.522667c12.458667 13.397333 23.424 41.258667 23.424 59.434666v359.381334a21.333333 21.333333 0 1 0 42.666666 0V515.029333z" fill="currentColor"></path>
+            </svg>
+            <span class="task-filter-model-text" id="taskModelFilterText">视频模型 - 全部</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+            <div class="task-filter-model-dropdown" id="taskModelFilterDropdown"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 生成区域 -->
+      <div class="content">
+        <div class="task-feed-toolbar" id="taskFeedToolbar" hidden>
+          <div class="task-layout-toggle" id="taskLayoutToggle" aria-label="任务布局切换">
+            <button class="task-layout-btn" id="taskLayoutListBtn" type="button" data-layout="list" aria-label="列表布局" aria-pressed="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="4" y1="6" x2="20" y2="6"></line>
+                <line x1="4" y1="12" x2="20" y2="12"></line>
+                <line x1="4" y1="18" x2="20" y2="18"></line>
+              </svg>
+            </button>
+            <button class="task-layout-btn" id="taskLayoutGridBtn" type="button" data-layout="grid" aria-label="网格布局" aria-pressed="false">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="4" y="4" width="6" height="6" rx="1"></rect>
+                <rect x="14" y="4" width="6" height="6" rx="1"></rect>
+                <rect x="4" y="14" width="6" height="6" rx="1"></rect>
+                <rect x="14" y="14" width="6" height="6" rx="1"></rect>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="generate-area" id="generateArea">
+          <h1 class="main-title" id="generateEmptyTitle">体验视频生成，让创意灵动起来</h1>
+          <div class="task-feed" id="taskFeed" hidden></div>
+        </div>
+
+        <div class="input-card">
+            <div class="upload-row">
+              <div class="frames-container">
+                <div class="upload-box style-card" id="firstFrameBox">
+                  <input type="file" id="firstFrameInput" accept="image/*" hidden>
+                  <div class="upload-placeholder">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                      <circle cx="8.5" cy="8.5" r="1.5"/>
+                      <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span>首帧</span>
+                  </div>
+                  <img class="upload-preview" id="firstFramePreview" hidden>
+
+                  <!-- 操作遮罩 -->
+                  <div class="upload-mask" hidden>
+                    <button class="mask-btn btn-delete">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                      </svg>
+                    </button>
+                    <div class="mask-actions">
+                      <button class="mask-btn btn-preview-trigger">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                          <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                      </button>
+                      <button class="mask-btn btn-replace">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M23 4v6h-6"/>
+                          <path d="M1 20v-6h6"/>
+                          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="swap-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="16 3 21 8 16 13"/>
+                    <line x1="21" y1="8" x2="9" y2="8"/>
+                    <line x1="15" y1="16" x2="3" y2="16"/>
+                    <polyline points="8 11 3 16 8 21"/>
+                  </svg>
+                </div>
+
+                <div class="upload-box style-card" id="lastFrameBox">
+                  <input type="file" id="lastFrameInput" accept="image/*" hidden>
+                  <div class="upload-placeholder">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                      <circle cx="8.5" cy="8.5" r="1.5"/>
+                      <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span>尾帧</span>
+                  </div>
+                  <img class="upload-preview" id="lastFramePreview" hidden>
+
+                  <!-- 操作遮罩 -->
+                  <div class="upload-mask" hidden>
+                    <button class="mask-btn btn-delete" title="删除">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                      </svg>
+                    </button>
+                    <div class="mask-actions">
+                      <button class="mask-btn btn-preview-trigger" title="预览">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                          <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                      </button>
+                      <button class="mask-btn btn-replace" title="替换">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M23 4v6h-6"/>
+                          <path d="M1 20v-6h6"/>
+                          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="reference-images-container" id="referenceImagesContainer" style="display: none; gap: 10px; overflow-x: auto;">
+                  <!-- Dynamic Reference Image Slots -->
+              </div>
+
+              <textarea class="prompt-input" placeholder="结合图片，输入创意描述（选填）"></textarea>
+            </div>
+
+            <div class="params-row">
+              <div class="param-tags">
+                <div class="video-settings" id="videoSettings">
+                  <div class="settings-text">
+                    <div class="settings-icon">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" y1="21" x2="4" y2="14"></line>
+                        <line x1="4" y1="10" x2="4" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12" y2="3"></line>
+                        <line x1="20" y1="21" x2="20" y2="16"></line>
+                        <line x1="20" y1="12" x2="20" y2="3"></line>
+                        <line x1="1" y1="14" x2="7" y2="14"></line>
+                        <line x1="9" y1="8" x2="15" y2="8"></line>
+                        <line x1="17" y1="16" x2="23" y2="16"></line>
+                      </svg>
+                    </div>
+                    <span>智能比例</span>
+                    <span class="setting-divider"></span>
+                    <span>1080p</span>
+                    <span class="setting-divider"></span>
+                    <span>4秒</span>
+                    <span class="setting-divider"></span>
+                    <span>1条</span>
+                  </div>
+                </div>
+
+                <div class="audio-btn" id="cameraFixedBtn">
+                  <span>固定镜头</span>
+                </div>
+
+                <div class="audio-btn" id="referenceImageBtn" style="display: none;">
+                  <span>参考图</span>
+                </div>
+
+                <div class="audio-btn" id="audioBtn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v18"/>
+                    <path d="M8 8v8"/>
+                    <path d="M4 11v2"/>
+                    <path d="M16 8v8"/>
+                    <path d="M20 11v2"/>
+                  </svg>
+                  <span>声音</span>
+                </div>
+
+                <div class="audio-btn" id="draftBtn">
+                  <span>样片速览</span>
+                </div>
+              </div>
+
+              <div class="action-right">
+                <div class="token-estimate-container">
+                  <div class="token-info">
+                    <span class="token-label">预计消耗</span>
+                    <span class="token-value" id="tokenValue">--</span>
+                    <span class="token-unit">Tokens</span>
+                  </div>
+                  <div class="token-popover-content">
+                    <div class="popover-title">视频Token计算公式 = (宽 * 高 * 帧率 * 时长) / 1024 * 条数</div>
+                    <img src="icon/video-token-calculate.1133e517.png" alt="Token Calculation">
+                    <div class="popover-footer">在智能比例/智能时长模式下，任务生成前暂无法精确预估 Tokens与费用，实际消耗以最终生成结果为准</div>
+                    <div class="token-price-display" id="tokenPriceDisplay"></div>
+                  </div>
+                </div>
+
+                <button class="generate-btn" id="generateBtn">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="19" x2="12" y2="5"/>
+                    <polyline points="5 12 12 5 19 12"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- 视频设置弹出面板 -->
+            <div class="settings-panel" id="settingsPanel">
+              <div class="settings-body">
+                <div class="settings-section">
+                  <label>视频比例</label>
+                  <div class="ratio-options">
+                    <button class="ratio-btn" data-ratio="21:9">
+                      <div class="ratio-img-box">
+                        <div class="ratio-icon ratio-21-9"></div>
+                      </div>
+                      <span>21:9</span>
+                    </button>
+                    <button class="ratio-btn" data-ratio="16:9">
+                      <div class="ratio-img-box">
+                        <div class="ratio-icon ratio-16-9"></div>
+                      </div>
+                      <span>16:9</span>
+                    </button>
+                    <button class="ratio-btn" data-ratio="4:3">
+                      <div class="ratio-img-box">
+                        <div class="ratio-icon ratio-4-3"></div>
+                      </div>
+                      <span>4:3</span>
+                    </button>
+                    <button class="ratio-btn" data-ratio="1:1">
+                      <div class="ratio-img-box">
+                        <div class="ratio-icon ratio-1-1"></div>
+                      </div>
+                      <span>1:1</span>
+                    </button>
+                    <button class="ratio-btn" data-ratio="3:4">
+                      <div class="ratio-img-box">
+                        <div class="ratio-icon ratio-3-4"></div>
+                      </div>
+                      <span>3:4</span>
+                    </button>
+                    <button class="ratio-btn" data-ratio="9:16">
+                      <div class="ratio-img-box">
+                        <div class="ratio-icon ratio-9-16"></div>
+                      </div>
+                      <span>9:16</span>
+                    </button>
+                    <button class="ratio-btn active" data-ratio="adaptive">
+                      <div class="ratio-img-box">
+                        <div class="ratio-icon ratio-auto">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                          </svg>
+                        </div>
+                      </div>
+                      <span>智能</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="settings-section">
+                  <label>分辨率</label>
+                  <div class="segment-control resolution-options">
+                    <button class="segment-btn" data-res="480p">480p</button>
+                    <button class="segment-btn" data-res="720p">720p</button>
+                    <button class="segment-btn active" data-res="1080p">1080p</button>
+                    <div class="draft-tooltip">样片模式仅支持生480p的低步数快速预览视频</div>
+                  </div>
+                </div>
+
+                <div class="settings-section" id="durationSection">
+                  <label>视频时长</label>
+                  <div class="segment-control duration-mode-options">
+                    <button class="segment-btn active" data-mode="seconds">按秒数</button>
+                    <button class="segment-btn" data-mode="auto">智能时长</button>
+                    <button class="segment-btn" data-mode="frames" style="display: none;">按帧数</button>
+                  </div>
+                  <div class="slider-wrapper" id="durationSecondsWrapper">
+                    <input type="range" class="duration-slider" min="1" max="10" value="4">
+                    <div class="slider-value-box">
+                      <span class="slider-value" id="durationValueDisplay">4</span>
+                      <span class="unit">秒</span>
+                    </div>
+                  </div>
+                  <div id="durationFramesWrapper" style="display: none;">
+                    <div class="slider-wrapper">
+                      <input type="range" class="frames-slider" min="29" max="289" value="29">
+                      <div class="slider-value-box">
+                        <span class="slider-value" id="framesValueDisplay">29</span>
+                        <span class="unit">帧</span>
+                      </div>
+                    </div>
+                    <div class="frames-hint" style="font-size: 12px; color: #86909c; margin-top: 8px; display: flex; justify-content: space-between;">
+                      <span>有效帧数范围:29-289</span>
+                      <span id="approxTimeDisplay">≈ 1.21s</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="settings-section" id="quantitySection">
+                  <label>选择生成数量</label>
+                  <div class="slider-wrapper" id="quantitySliderWrapper">
+                    <input type="range" class="quantity-slider" min="1" max="4" value="1">
+                    <div class="slider-value-box">
+                      <span class="slider-value" id="quantityValueDisplay">1</span>
+                      <span class="unit">条</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="settings-section" id="seedSettingsSection">
+                  <div class="seed-row-header">
+                    <label>种子值</label>
+                  </div>
+                  <div class="seed-setting-row">
+                    <input type="text" class="seed-panel-input" id="seedValueInput" placeholder="-1">
+                    <button type="button" class="seed-random-btn" id="seedRandomBtn" aria-label="随机种子">
+                      <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1"></circle>
+                        <circle cx="15.5" cy="8.5" r="1"></circle>
+                        <circle cx="8.5" cy="15.5" r="1"></circle>
+                        <circle cx="15.5" cy="15.5" r="1"></circle>
+                        <circle cx="12" cy="12" r="1"></circle>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+  <!-- 配置模态框 -->
+  <div class="modal-overlay" id="configModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>配置</h2>
+        <button class="btn-close" id="closeModal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="api-config-box">
+          <label>API Key</label>
+          <input type="password" class="api-input" placeholder="**********">
+          <p class="config-hint">提示：请确保API Key已配置视频生成权限</p>
+          <div class="api-actions">
+            <button class="api-btn" id="exportBtn">导出数据</button>
+            <button class="api-btn" id="importBtn">导入数据</button>
+          </div>
+          <div class="drag-hint" id="importHint">拖入压缩包（.7z / .zip）以导入数据</div>
+        </div>
+
+        <div class="config-toggle">
+          <div>
+            <label>水印</label>
+            <p class="config-hint">添加视频水印</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="watermarkSwitch">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="config-toggle">
+          <div>
+            <label>配置种子</label>
+            <p class="config-hint">启用种子配置</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="seedSwitch">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="config-toggle">
+          <div>
+            <label>固定镜头</label>
+            <p class="config-hint">启用固定镜头配置</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="cameraFixedSwitch">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="config-toggle export-compression-toggle">
+          <div>
+            <label>导出配置</label>
+            <p class="config-hint">修改导出压缩包的压缩率</p>
+          </div>
+          <div class="select" id="exportCompressionSelect">
+            <button class="select-btn" id="exportCompressionBtn" type="button">仅存储</button>
+            <div class="select-menu" id="exportCompressionMenu" hidden>
+              <button class="select-item" type="button" data-value="store">仅存储</button>
+              <button class="select-item" type="button" data-value="fast">快速压缩</button>
+              <button class="select-item" type="button" data-value="normal">标准压缩</button>
+              <button class="select-item" type="button" data-value="max">最大压缩</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="config-toggle" id="developerModeRow">
+            <div>
+              <label>开发者选项</label>
+              <p class="config-hint">显示高级选项</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="developerModeSwitch">
+              <span class="slider"></span>
+            </label>
+        </div>
+
+        <div id="developerOptions" style="margin-left: 0; margin-top: 6px; display: none;">
+          <div class="config-toggle">
+              <div>
+                <label>请求预览模式</label>
+                <p class="config-hint">开启后仅展示请求与 cURL，不发送真实请求</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="debugSwitch">
+                <span class="slider"></span>
+              </label>
+          </div>
+
+          <div class="config-toggle" id="agentationToggleRow">
+            <div>
+              <label>Agentation 标注工具</label>
+              <p class="config-hint">仅开发模式生效</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="agentationSwitch">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 调试信息模态框 -->
+  <div class="modal-overlay" id="debugModal">
+    <div class="modal" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2>调试请求参数</h2>
+        <button class="btn-close" id="closeDebugModal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="debug-code-box" style="background: #f5f7fa; padding: 16px; border-radius: 8px; overflow: auto; max-height: 400px;">
+            <pre><code id="debugCode" style="font-family: monospace; font-size: 13px; color: #333;"></code></pre>
+        </div>
+        <div class="api-actions" style="margin-top: 16px; justify-content: space-between; gap: 12px;">
+            <select id="debugViewSelect" class="api-select" style="height: 36px; padding: 0 10px; border-radius: 8px; border: 1px solid #e6e8ef; background: #fff;">
+              <option value="request">请求(JSON)</option>
+              <option value="body">Body(JSON)</option>
+              <option value="curl">cURL</option>
+            </select>
+            <button class="api-btn" id="copyDebugBtn">复制</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 图片预览浮层 -->
+  <div id="imagePreviewPopover" class="image-preview-popover">
+    <img src="" alt="Preview">
+  </div>
+
+  <!-- 全屏图片预览模态框 -->
+  <div class="fullscreen-preview-overlay" id="fullscreenPreviewOverlay" hidden>
+    <div class="fullscreen-preview-content">
+      <img src="" alt="Full Preview" id="fullscreenPreviewImage">
+      <button class="fullscreen-close-btn" id="fullscreenCloseBtn" title="关闭">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="task-detail-overlay" id="taskDetailOverlay" hidden>
+    <div class="task-detail-modal" role="dialog" aria-modal="true">
+      <div class="task-detail-left">
+        <div class="task-detail-toolbar">
+          <button class="task-toolbar-btn" type="button" data-action="download" aria-label="下载">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </button>
+          <button class="task-toolbar-btn" type="button" data-action="star" aria-label="收藏">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9 12 2"/>
+            </svg>
+          </button>
+          <button class="task-toolbar-btn" type="button" data-action="share" aria-label="分享">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/>
+              <polyline points="16 6 12 2 8 6"/>
+              <line x1="12" y1="2" x2="12" y2="15"/>
+            </svg>
+          </button>
+          <button class="task-toolbar-btn task-toolbar-danger" type="button" data-action="delete" aria-label="删除">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+              <path d="M10 11v6"/>
+              <path d="M14 11v6"/>
+              <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+            </svg>
+          </button>
+        </div>
+        <div class="task-detail-video-wrap">
+          <video id="taskDetailVideo" playsinline controls></video>
+        </div>
+      </div>
+      <div class="task-detail-right">
+        <div class="task-detail-right-header">
+          <div class="task-detail-model">
+            <div class="task-detail-model-icon">
+              <svg t="1769528331257" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5510" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16"><path d="M154.68661162 328.42831573l-1.28709316 0.64354657v364.89095508l357.81194092 188.23739678V506.36896719L154.68661162 328.42831573z" fill="#FFFFFF" p-id="5511"></path><path d="M868.37985459 328.75008945L511.21145938 140.83446552 168.52286445 321.02752959l-13.83625283 7.40078613 356.52484775 177.94065147 4.18305323-1.93064063 353.95066143-175.04469052V329.0718623l-0.96531944-0.32177285zM515.3945126 504.43832656l-4.18305323 1.93064063 4.18305323-1.93064063z" fill="#91D5FF" p-id="5512"></path><path d="M939.8135331 294.32034336a59.84983916 59.84983916 0 0 0-25.42009307-26.70718623L538.56219219 68.75723955a58.88451885 58.88451885 0 0 0-54.70146563 0L108.35125244 266.32606396a58.24097227 58.24097227 0 0 0-15.44511973 13.83625284 64.35466612 64.35466612 0 0 0-9.65320049 12.54915966 59.84983916 59.84983916 0 0 0-6.43546581 25.7418668v386.12799405a59.20629258 59.20629258 0 0 0 32.17733261 52.1272793l375.50947413 197.56882352a59.20629258 59.20629258 0 0 0 26.70718622 7.72255987h4.50482696a56.31033252 56.31033252 0 0 0 22.84590586-6.11369297l375.509475-197.56882441a59.20629258 59.20629258 0 0 0 32.17733261-52.12727842V318.45334326a56.63210625 56.63210625 0 0 0-6.4354667-24.1329999z m-70.46835908 35.07329268l-353.95066142 175.04469052-4.18305323 2.25241348v375.50947412L153.07774472 693.96281739V329.0718623l13.83625284-7.40078613 344.29746182-180.83661064 357.16839521 187.91562392z" fill="#40A9FF" p-id="5513"></path></svg>
+            </div>
+            <div>
+              <div class="task-detail-model-name" id="taskDetailModelName">-</div>
+              <div class="task-detail-time" id="taskDetailTime">-</div>
+            </div>
+          </div>
+          <button class="task-detail-close" id="taskDetailCloseBtn" type="button" aria-label="关闭">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+        <div class="task-detail-right-body" id="taskDetailBody"></div>
+        <button class="task-detail-edit-btn" id="taskDetailEditBtn" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 20h9"/>
+            <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>
+          </svg>
+          重新编辑
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="floating-notice-host" id="floatingNoticeHost" aria-live="polite" aria-atomic="true"></div>
+
+  <div class="modal-overlay" id="confirmModal" aria-hidden="true">
+    <div class="modal" style="max-width: 420px;">
+      <div class="modal-header">
+        <h2 id="confirmTitle">提示</h2>
+        <button class="btn-close" id="closeConfirmModal" type="button" aria-label="关闭">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="confirm-message" id="confirmMessage"></div>
+        <div class="api-actions confirm-actions">
+          <button class="api-btn" id="confirmCancelBtn" type="button">取消</button>
+          <button class="btn-primary" id="confirmOkBtn" type="button">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="import-export-progress" id="importExportProgress" hidden>
+    <div class="import-export-progress__row">
+      <div class="import-export-progress__text" id="importExportProgressText">处理中…</div>
+      <div class="import-export-progress__bar">
+        <div class="import-export-progress__barFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/model-specs.js"></script>
+  <script src="js/model-config.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/ui-render.js"></script>
+  <script src="js/upload.js"></script>
+  <script src="js/tasks.js"></script>
+  <script src="js/generation.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

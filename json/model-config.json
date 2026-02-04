@@ -1,0 +1,15 @@
+{
+  "model": "doubao-seedance-1-5-pro-251215",
+  "content": [
+    {
+      "type": "text",
+      "text": ""
+    }
+  ],
+  "resolution": "1080p",
+  "ratio": "adaptive",
+  "duration": 4,
+  "camera_fixed": false,
+  "watermark": false,
+  "generate_audio": false
+}
